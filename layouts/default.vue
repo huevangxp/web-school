@@ -5,7 +5,7 @@
       <v-main class="mb-16">
         <Nuxt />
       </v-main>
-      <v-navigation-drawer right temporary v-model="drawer" fixed app>
+      <v-navigation-drawer v-model="drawer" right temporary  fixed app>
         <v-list-item active-class="deep-purple--text text--accent-4">
           <v-list-item-avatar>
             <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
@@ -45,7 +45,7 @@
         </v-avatar>
         <v-card-title> TAMIXAY SCHOOL </v-card-title>
         <v-spacer />
-        <v-btn @click="drawer = !drawer" icon dark>
+        <v-btn  icon dark @click="drawer = !drawer">
           <v-icon> mdi-menu </v-icon>
         </v-btn>
       </v-app-bar>
@@ -54,7 +54,7 @@
       </v-footer>
     </v-app>
 
-    <v-app dark v-else>
+    <v-app v-else dark >
       <v-app-bar fixed app color="primary" dark>
         <v-avatar size="60">
           <v-img
@@ -70,23 +70,30 @@
         <v-btn text dark to="/about">About</v-btn>
         <v-spacer />
         <v-menu v-if="userData" bottom left>
-          <template  v-slot:activator="{ on, attrs }">
+          <template  #activator="{ on, attrs}">
             <v-btn  dark icon v-bind="attrs" v-on="on">
               <v-icon>mdi-menu</v-icon>
             </v-btn>
           </template>
-
           <v-list>
-            <v-list-item v-for="(item, i) in user" :key="i" link :to="item.to">
+            <v-list-item v-for="item  in user" :key="item.id" :to="item.to">
               <v-list-item-action>
                 <v-icon color="primary">{{ item.icon }}</v-icon>
               </v-list-item-action>
               <v-list-item-title>{{ item.title }}</v-list-item-title>
             </v-list-item>
-            <!-- <v-btn text @click="logout"> <v-icon class="mr-7" color="primary">mdi-power</v-icon> Logout</v-btn> -->
           </v-list>
+          <v-list>
+            <v-list-item @click="logout" >
+              <v-list-item-action>
+                <v-icon color="primary">mdi-power</v-icon>
+              </v-list-item-action>
+              <v-list-item-title>Logout</v-list-item-title>
+            </v-list-item>
+          </v-list>
+          <!-- <v-btn text @click="logout"> <v-icon class="mr-7" color="primary">mdi-power</v-icon> Logout</v-btn> -->
         </v-menu>
-        <v-btn v-else text dark v-bind="attrs" v-on="on" @click="login"> Login </v-btn>
+        <v-btn v-else text dark  v-on="on" @click="login"> Login </v-btn>
       </v-app-bar>
       <v-main>
         <v-container fluid>
@@ -141,11 +148,23 @@ export default {
           to: '/profile',
         },
         {
-          icon: 'mdi-cog',
+          icon: 'mdi-account-multiple-plus',
           title: 'Add Student',
           to: '/profile/adduser',
         },
+        {
+          icon: 'mdi-human-male-board',
+          title: 'Add Teacher',
+           to: '/profile/addteacher',
+        },
+        {
+          icon: 'mdi-message-check',
+          title: 'Add Student absent',
+           to: '/profile/absent',
+        },
+
       ],
+
     }
   },
   methods: {
@@ -153,8 +172,8 @@ export default {
     this.userData = false
     },
     login() {
-    this.userData = true
-   }
+      this.userData = true
+    }
   }
 }
 </script>
